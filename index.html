@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0d1013" />
+  <meta name="description" content="MuseSink — lightweight, synchronized YouTube listening rooms for gaming nights." />
+  <title>MuseSink · Shared soundtracks</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css?v=2.2" />
+  <script src="firebase-config.js?v=2.2"></script>
+  <script src="app.js?v=2.2" defer></script>
+</head>
+<body data-game="deadlock">
+  <div class="backdrop" aria-hidden="true"><div class="backdrop-grid"></div><div class="backdrop-orb"></div></div>
+  <div class="app-shell">
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="MuseSink home">
+        <span class="brand-icon" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+        <span class="brand-word">muse<span>sink</span><sup>v2.2</sup></span>
+      </a>
+      <div class="header-game-picker" aria-label="Game profile">
+        <button class="game-tab active" type="button" data-game-switch="deadlock"><span class="game-glyph deadlock-glyph">✦</span> Deadlock</button>
+        <button class="game-tab" type="button" data-game-switch="valorant"><span class="game-glyph valorant-glyph">⌄</span> Valorant</button>
+        <button class="game-tab" type="button" data-game-switch="repo"><span class="game-glyph repo-glyph">◉</span> R.E.P.O.</button>
+      </div>
+      <div class="header-side">
+        <span class="signal-pill"><span class="signal-dot"></span><span id="connectionLabel">LOCAL DEMO</span></span>
+        <button class="icon-button settings-button" type="button" id="helpButton" title="How to use MuseSink" aria-label="How to use MuseSink">?</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="tiny-line"></span> THE SHARED FREQUENCY <span class="version-slash">/</span> <span id="heroSerial">CHANNEL 01</span></div>
+          <h1 id="heroTitle">Rule the <em>night.</em></h1>
+          <p id="heroSubtitle">The city never sleeps. Neither does your soundtrack.</p>
+          <div class="hero-tags"><span>✧ IN SYNC</span><span>○ ONE ROOM</span><span>◈ THREE WORLDS</span></div>
+        </div>
+        <div class="hero-art" aria-hidden="true"><span class="art-ring art-ring-one"></span><span class="art-ring art-ring-two"></span><span class="art-cross">+</span><span class="art-number" id="artNumber">01</span><span class="art-caption" id="artCaption">THE CITY IS LISTENING</span></div>
+      </section>
+
+      <div id="demoNotice" class="notice"><span class="notice-icon">i</span><span><strong>Preview mode.</strong> Rooms synchronize between tabs on this device. For friends on separate PCs, add your Firebase configuration using the included setup guide.</span><button id="noticeDismiss" type="button" aria-label="Dismiss notice">×</button></div>
+
+      <section class="content-grid" aria-label="Music room">
+        <div class="main-column">
+          <div class="panel player-panel">
+            <div class="panel-heading"><span class="panel-kicker"><span class="red-dot"></span> NOW BROADCASTING</span><span id="playerStatus" class="panel-meta">STANDBY</span></div>
+            <div class="video-frame" id="videoFrame">
+              <div id="youtubePlayer"></div>
+              <div class="video-placeholder" id="videoPlaceholder" aria-hidden="true">
+                <div class="placeholder-logo"><span class="brand-icon big-wave"><i></i><i></i><i></i><i></i><i></i></span></div>
+                <span class="placeholder-text">AWAITING SIGNAL</span><span class="placeholder-sub">Add a YouTube link to start the frequency.</span>
+              </div>
+            </div>
+            <div class="track-detail"><div class="album-mark">♫</div><div class="track-copy"><p class="micro-label">CURRENT TRANSMISSION</p><h2 id="currentTitle">No track selected</h2><p id="currentSubtitle">Your shared soundtrack starts here.</p></div><span id="syncMarker" class="sync-marker">● IDLE</span></div>
+            <div class="progress-row"><span id="elapsedTime">0:00</span><input id="timeline" type="range" min="0" max="1000" value="0" aria-label="Seek track" /><span id="durationTime">0:00</span></div>
+            <div class="transport-row"><div class="transport-center"><button id="previousButton" class="transport-button" title="Previous song" aria-label="Previous song">⏮</button><button id="playButton" class="transport-play" title="Play or pause" aria-label="Play or pause">▶</button><button id="nextButton" class="transport-button" title="Next song" aria-label="Next song">⏭</button></div><div class="transport-side"><button id="resyncButton" class="tiny-action" title="Resynchronize with room">↻ SYNC</button><div class="volume-control"><span aria-hidden="true">◖</span><input id="volume" type="range" min="0" max="100" value="65" aria-label="Your volume" /></div></div></div>
+            <button id="armButton" class="arm-button" type="button"><span>▶</span> ENABLE MY AUDIO <small>Required once per browser session</small></button>
+          </div>
+
+          <section class="panel queue-panel">
+            <div class="panel-heading queue-heading"><div><div class="panel-kicker">THE ROTATION <span class="queue-profile-tag" id="queueProfileTag">DEADLOCK</span></div><h2>Up next <span id="queueCount" class="count-inline">00</span></h2></div><span class="panel-meta">SHARED QUEUE</span></div>
+            <form id="addForm" class="add-form"><div class="input-row"><label class="field"><span>YOUTUBE LINK</span><input id="songUrl" type="text" inputmode="url" autocomplete="off" placeholder="Paste YouTube URL or video ID" maxlength="250" required /></label><label class="field title-field"><span>TITLE <small>OPTIONAL</small></span><input id="songTitle" type="text" placeholder="Track name" maxlength="110" /></label></div><button type="submit" class="primary-button"><span>＋</span> ADD TO QUEUE</button></form>
+            <div id="queueList" class="queue-list"><div class="empty-queue">No tracks yet — drop a link above.</div></div>
+            <div class="queue-footer"><span>✦ EACH GAME KEEPS ITS OWN PLAYLIST</span><span id="queueHint">Switch profiles without losing your music.</span></div>
+          </section>
+        </div>
+
+        <aside class="side-column">
+          <section class="panel lobby-panel">
+            <div class="panel-heading"><span class="panel-kicker">THE LOBBY</span><span id="roomBadge" class="panel-meta">NOT CONNECTED</span></div>
+            <div id="noRoomPanel" class="room-create">
+              <div class="lobby-illustration"><span class="lobby-circle">◎</span><span class="lobby-cross top">+</span><span class="lobby-cross bottom">+</span></div>
+              <h2>Get everyone<br/><em>on the same beat.</em></h2>
+              <p>One link. One playlist. Everyone hears the same moment.</p>
+              <label class="field lobby-name"><span>YOUR DISPLAY NAME</span><input id="displayName" type="text" maxlength="24" placeholder="Your nickname" autocomplete="nickname" /></label>
+              <button id="createRoomButton" class="primary-button block" type="button">＋ CREATE A ROOM</button>
+              <div class="or-divider"><span>OR JOIN THE BOYS</span></div>
+              <div class="join-row"><input id="joinCode" type="text" maxlength="12" placeholder="8-CHAR CODE" aria-label="Room code" autocapitalize="characters" /><button id="joinRoomButton" type="button">JOIN →</button></div>
+            </div>
+            <div id="activeRoomPanel" class="active-room" hidden>
+              <div class="room-live"><span class="on-air-dot"></span> LIVE ROOM <span id="roomMode">LOCAL</span></div>
+              <h2 id="roomCodeLabel" class="room-code">--------</h2><p class="room-label">YOUR ROOM CODE</p>
+              <button id="copyInviteButton" class="primary-button block" type="button">⤴ COPY INVITE LINK</button>
+              <div class="room-member-heading"><span>CONNECTED LISTENERS</span><span id="memberCount">0 / ONLINE</span></div>
+              <div id="memberList" class="members"></div>
+              <div class="dj-panel"><span>DJ CONTROL</span><div class="dj-content"><strong id="djName">---</strong><button id="takeDjButton" type="button">TAKE THE AUX</button></div></div>
+              <button id="leaveRoomButton" class="leave-button" type="button">LEAVE ROOM ↗</button>
+            </div>
+          </section>
+
+          <section class="panel profile-panel"><div class="panel-heading"><span class="panel-kicker">FREQUENCY MEMORY</span><span class="panel-meta">03 PROFILES</span></div><h2>Three games.<br/><em>Three moods.</em></h2><div class="profile-list"><button class="profile-item selected" type="button" data-game-switch="deadlock"><span class="profile-glyph profile-deadlock">✦</span><span class="profile-info"><strong>Deadlock</strong><small>NOCTURNAL / OCCULT</small></span><span class="profile-stat" id="deadlockCount">00</span></button><button class="profile-item" type="button" data-game-switch="valorant"><span class="profile-glyph profile-valorant">∨</span><span class="profile-info"><strong>Valorant</strong><small>TACTICAL / PRECISION</small></span><span class="profile-stat" id="valorantCount">00</span></button><button class="profile-item" type="button" data-game-switch="repo"><span class="profile-glyph profile-repo">◉</span><span class="profile-info"><strong>R.E.P.O.</strong><small>SALVAGE / AFTER HOURS</small></span><span class="profile-stat" id="repoCount">00</span></button></div><p class="profile-footnote">Changing games switches everyone’s theme and current playlist.</p></section>
+          <section class="lightweight-note"><span class="small-bolt">↯</span><div><strong>BUILT TO STAY OUT OF THE WAY</strong><p>No React. No streaming server. No audio conversion. Just the YouTube player and a tiny shared room state.</p></div></section>
+        </aside>
+      </section>
+    </main>
+    <footer><span>MUSE<span class="footer-accent">SINK</span> / ALWAYS IN TUNE</span><span>CRAFTED FOR THE SQUAD · <span id="footerMode">LOCAL PREVIEW</span></span></footer>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <dialog id="helpDialog" class="help-dialog"><div class="dialog-head"><strong>MUSE<span>SINK</span> / HELP</strong><button id="closeHelp" aria-label="Close help" type="button">×</button></div><h2>One squad. One soundtrack.</h2><ol><li>Create a room and share the invite code or link.</li><li>Everyone clicks <b>Enable My Audio</b> once. Browser autoplay rules require a click.</li><li>Add YouTube video links to the current game's queue.</li><li>The DJ controls playback and game profile. Anyone in the room can click <b>Take the Aux</b>.</li><li>Keep the embedded YouTube player available; MuseSink does not rip or separate YouTube audio.</li></ol><p id="helpModeText"></p><button id="closeHelpBottom" class="primary-button block" type="button">GOT IT</button></dialog>
+</body>
+</html>

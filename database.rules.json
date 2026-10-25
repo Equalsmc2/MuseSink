@@ -1,0 +1,42 @@
+{
+  "rules": {
+    "musesinkRooms": {
+      "$room": {
+        ".read": "auth != null && $room.matches(/^[A-HJ-NP-Z2-9]{8}$/)",
+        ".write": "auth != null && $room.matches(/^[A-HJ-NP-Z2-9]{8}$/) && !data.exists() && newData.child('meta/createdBy').val() === auth.uid && newData.child('meta/djId').val() === auth.uid && newData.child('meta/game').val() === 'deadlock'",
+        ".validate": "newData.hasChildren(['meta', 'profiles', 'members'])",
+        "meta": {
+          "game": {
+            ".write": "auth != null && root.child('musesinkRooms').child($room).child('meta/djId').val() === auth.uid",
+            ".validate": "newData.isString() && (newData.val() === 'deadlock' || newData.val() === 'valorant' || newData.val() === 'repo')"
+          },
+          "djId": {
+            ".write": "auth != null && root.child('musesinkRooms').child($room).child('members').child(auth.uid).exists()",
+            ".validate": "newData.isString() && (( !root.child('musesinkRooms').child($room).exists() && newData.val() === auth.uid) || root.child('musesinkRooms').child($room).child('members').child(newData.val()).exists())"
+          }
+        },
+        "members": {
+          "$uid": {
+            ".write": "auth != null && auth.uid === $uid",
+            ".validate": "newData.hasChildren(['name', 'joinedAt']) && newData.child('name').isString() && newData.child('name').val().length <= 24 && newData.child('joinedAt').isNumber()"
+          }
+        },
+        "profiles": {
+          "$game": {
+            ".validate": "$game === 'deadlock' || $game === 'valorant' || $game === 'repo'",
+            "playback": {
+              ".write": "auth != null && root.child('musesinkRooms').child($room).child('meta/djId').val() === auth.uid",
+              ".validate": "newData.hasChildren(['trackId', 'playing', 'position', 'changedAt']) && newData.child('trackId').isString() && newData.child('trackId').val().length <= 64 && newData.child('playing').isBoolean() && newData.child('position').isNumber() && newData.child('position').val() >= 0 && newData.child('position').val() <= 86400 && newData.child('changedAt').isNumber()"
+            },
+            "tracks": {
+              "$trackId": {
+                ".write": "auth != null && root.child('musesinkRooms').child($room).child('members').child(auth.uid).exists() && (!data.exists() || data.child('byUid').val() === auth.uid || root.child('musesinkRooms').child($room).child('meta/djId').val() === auth.uid)",
+                ".validate": "newData.hasChildren(['videoId', 'title', 'addedBy', 'byUid', 'addedAt']) && newData.child('videoId').isString() && newData.child('videoId').val().matches(/^[A-Za-z0-9_-]{11}$/) && newData.child('title').isString() && newData.child('title').val().length <= 110 && newData.child('addedBy').isString() && newData.child('addedBy').val().length <= 24 && newData.child('byUid').isString() && (!data.exists() ? newData.child('byUid').val() === auth.uid : newData.child('byUid').val() === data.child('byUid').val()) && newData.child('addedAt').isNumber()"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

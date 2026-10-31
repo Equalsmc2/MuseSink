@@ -158,9 +158,38 @@ async function changeTheme(videoId,isPlaying){
 }
 
 function playlistCard(p,tracks,selected){const card=document.createElement('button');card.className='playlist-card'+(selected?' active':'');card.type='button';card.setAttribute('aria-label',`${p.name}, ${tracks.length} tracks${selected?', currently selected':''}`);card.setAttribute('aria-pressed',String(selected));const tiles=document.createElement('div');tiles.className='playlist-covers'+(tracks.length?'':' empty');if(tracks.length){const art=tracks.slice(0,4);for(let n=0;n<4;n++){const img=document.createElement('img');img.src=videoURL(art[n%art.length].videoId);img.alt='';img.loading='lazy';tiles.appendChild(img)}}card.appendChild(tiles);if(selected){const badge=document.createElement('span');badge.className='playing-flag';badge.textContent='● SELECTED';card.appendChild(badge)}const txt=document.createElement('span');txt.className='playlist-text';const title=document.createElement('strong');title.textContent=p.name;const count=document.createElement('small');count.textContent=`${tracks.length} ${tracks.length===1?'TRACK':'TRACKS'}`;txt.append(title,count);card.appendChild(txt);card.addEventListener('click',()=>selectPlaylist(p.id).catch(err=>toast(err.message)));return card}
-function renderPlaylists(){const all=playlists(),pageCount=Math.max(1,Math.ceil(all.length/PLAYLISTS_PER_PAGE));state.playlistPage=Math.min(pageCount-1,Math.max(0,state.playlistPage));const grid=$('playlistGrid');grid.replaceChildren();const active=activePlaylist();for(const p of all.slice(state.playlistPage*PLAYLISTS_PER_PAGE,(state.playlistPage+1)*PLAYLISTS_PER_PAGE))grid.appendChild(playlistCard(p,tracksOf(p.id),active===p.id));if(!all.length){const empty=document.createElement('div');empty.className='playlist-empty';empty.innerHTML='<strong>No playlists yet</strong><span>Make the first mix</span>';grid.appendChild(empty)}$('playlistPageText').textContent=`${state.playlistPage+1} / ${pageCount}`;$('playlistPrev').disabled=state.playlistPage===0;$('playlistNext').disabled=state.playlistPage+1>=pageCount;$('playlistSummary').textContent=all.length+' PLAYLIST'+(all.length!==1?'S':'')+' · ALL SHARED'}
+function renderPlaylists(){const all=playlists(),pageCount=Math.max(1,Math.ceil(all.length/PLAYLISTS_PER_PAGE));state.playlistPage=Math.min(pageCount-1,Math.max(0,state.playlistPage));const grid=$('playlistGrid');grid.replaceChildren();const active=activePlaylist();for(const p of all.slice(state.playlistPage*PLAYLISTS_PER_PAGE,(state.playlistPage+1)*PLAYLISTS_PER_PAGE))grid.appendChild(playlistCard(p,tracksOf(p.id),active===p.id));if(!all.length){const empty=document.createElement('div');empty.className='playlist-empty';empty.innerHTML='<strong>No playlists yet</strong><span>Make the first mix</span>';grid.appendChild(empty)}$('playlistPageText').textContent=`${state.playlistPage+1} / ${pageCount}`;$('playlistPrev').disabled=state.playlistPage===0;$('playlistNext').disabled=state.playlistPage+1>=pageCount;$('playlistSummary').textContent=all.length+' PLAYLIST'+(all.length!==1?'S':'')+' · ALL SHARED';renderShelfHighlights()}
+function renderShelfHighlights(){
+  const id=activePlaylist(), tracks=tracksOf(id),wrap=$('shelfHighlights'),head=$('shelfTrackCount');
+  const all=playlists();
+  const shelf=$('crateHighlights');
+  shelf.dataset.playlistCount=String(all.length);
+  shelf.classList.toggle('dense-library',all.length>=3);
+  head.textContent=tracks.length+' '+(tracks.length===1?'SONG':'SONGS');
+  wrap.replaceChildren();
+  if(!tracks.length){
+    const empty=document.createElement('div');empty.className='crate-empty';
+    empty.innerHTML='<span class="crate-empty-glyph">♬</span><strong>Nothing in this sleeve yet</strong><span>Add a song on the right to start collecting.</span>';
+    wrap.appendChild(empty);return;
+  }
+  // Direct plays here use the selected playlist; simply browsing a crate remains local-only.
+  for(const [i,track] of tracks.slice(0,3).entries()){
+    const btn=document.createElement('button');btn.type='button';btn.className='crate-track';
+    btn.title='Play '+(track.title||'this track');
+    const img=document.createElement('img');img.src=videoURL(track.videoId);img.alt='';img.loading='lazy';
+    const body=document.createElement('span');body.className='crate-track-copy';
+    const title=document.createElement('strong');title.textContent=track.title||'YouTube track';
+    const meta=document.createElement('small');meta.textContent=(i+1).toString().padStart(2,'0')+'  ·  '+(track.addedBy||'Listener');
+    body.append(title,meta);
+    const arrow=document.createElement('span');arrow.className='crate-track-play';arrow.textContent='▶';
+    btn.append(img,body,arrow);
+    btn.addEventListener('click',()=>playTrack(track.key).catch(err=>toast(err.message)));
+    wrap.appendChild(btn);
+  }
+  if(tracks.length>3){const more=document.createElement('span');more.className='crate-more';more.textContent='+'+(tracks.length-3)+' more in this sleeve';wrap.appendChild(more);}
+}
 function trackRowsPerPage(){return window.innerHeight<=800?2:3}
-function renderTracks(){const id=activePlaylist(),list=tracksOf(id),p=activePlayback();$('selectedPlaylistTitle').textContent=state.hub.playlists?.[id]?.name||'Loading playlist';$('songCount').textContent=list.length+' TRACK'+(list.length===1?'':'S');const pageSize=trackRowsPerPage(),total=Math.max(1,Math.ceil(list.length/pageSize));state.trackPage=Math.min(total-1,Math.max(0,state.trackPage));$('trackPageText').textContent=(state.trackPage+1)+' / '+total;$('trackPrev').disabled=state.trackPage===0;$('trackNext').disabled=state.trackPage+1>=total;$('deletePlaylistButton').disabled=playlists().length<2;
+function renderTracks(){const id=activePlaylist(),list=tracksOf(id),p=activePlayback();$('selectedPlaylistTitle').textContent=state.hub.playlists?.[id]?.name||'Loading playlist';$('songCount').textContent=list.length+' TRACK'+(list.length===1?'':'S');$('browseCaption').textContent=id!==p.playlistId?'Browsing only — the current song keeps playing.':'The good stuff, picked by the whole gang.';const pageSize=trackRowsPerPage(),total=Math.max(1,Math.ceil(list.length/pageSize));state.trackPage=Math.min(total-1,Math.max(0,state.trackPage));$('trackPageText').textContent=(state.trackPage+1)+' / '+total;$('trackPrev').disabled=state.trackPage===0;$('trackNext').disabled=state.trackPage+1>=total;$('deletePlaylistButton').disabled=playlists().length<2;
  const wrap=$('trackList');wrap.replaceChildren();wrap.style.setProperty('--rows',String(pageSize));const rows=list.slice(state.trackPage*pageSize,(state.trackPage+1)*pageSize);if(!rows.length){const empty=document.createElement('div');empty.className='empty-tracks';empty.innerHTML='<div class="empty-icon">♫</div><strong>This playlist is empty</strong><span>Add a YouTube link and everyone will see it here.</span>';wrap.appendChild(empty);return}for(const track of rows){const row=document.createElement('div');row.className='track-row'+(p.trackId===track.key&&p.playlistId===id?' current':'');const img=document.createElement('img');img.className='track-thumb';img.src=videoURL(track.videoId);img.loading='lazy';img.alt='';const copy=document.createElement('div');copy.className='track-copy';const title=document.createElement('strong');title.textContent=track.title||'YouTube track';const meta=document.createElement('small');meta.textContent=(p.trackId===track.key&&p.playlistId===id?(p.playing?'● NOW PLAYING · ':'● SELECTED · '):'')+'Added by '+(track.addedBy||'Listener');copy.append(title,meta);const controls=document.createElement('div');controls.className='track-actions';const play=document.createElement('button');play.type='button';play.title='Play this song for everyone';play.textContent='▶';play.addEventListener('click',()=>playTrack(track.key).catch(err=>toast(err.message)));const remove=document.createElement('button');remove.type='button';remove.title='Remove this song';remove.className='remove';remove.textContent='✕';remove.addEventListener('click',()=>removeSong(track.key));controls.append(play,remove);row.append(img,copy,controls);wrap.appendChild(row)}}
 function renderPresence(){const presence=Object.values(state.hub.presence||{}).filter(x=>x&&x.name);$('listenersLabel').textContent=presence.length+' LISTENER'+(presence.length===1?'':'S');const box=$('listenerBubbles');box.replaceChildren();presence.slice(0,4).forEach(listener=>{const node=document.createElement('div');node.className='bubble';node.title=listener.name;node.textContent=String(listener.name).charAt(0).toUpperCase();box.appendChild(node)})}
 function renderPlaybackControls(){
@@ -172,6 +201,8 @@ function renderPlaybackControls(){
   $('playlistNowName').textContent=name.toUpperCase();
   $('dockTitle').textContent=track?title:'The sound of possibility';
   $('dockPlaylist').textContent=track?name:'Pick a track to begin';
+  $('sourceTitle').textContent=track?title:'A window to the music';
+  $('sourceBy').textContent=track?'Playing from '+name+' · added by '+(track.addedBy||'Listener'):'YouTube\'s player is ready when you are.';
   const dock=$('dockArt');
   if(track){if(dock.dataset.video!==track.videoId){dock.src=videoURL(track.videoId);dock.dataset.video=track.videoId;}dock.hidden=false;$('dockFallback').hidden=true;
     $('youtubeLink').href='https://www.youtube.com/watch?v='+track.videoId;

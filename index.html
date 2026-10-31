@@ -7,9 +7,9 @@
   <meta name="description" content="MuseSink — your shared little record shop. Playlists, cover art, and one soundtrack for the squad.">
   <title>MuseSink — The Listening Room</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=4.0.0">
+  <link rel="stylesheet" href="styles.css?v=4.1.0">
   <script src="firebase-config.js?v=3.0.1"></script>
-  <script src="app.js?v=4.0.0" defer></script>
+  <script src="app.js?v=4.1.0" defer></script>
 </head>
 <body>
   <div class="ambient" aria-hidden="true"><div class="ambient-cover"></div><div class="ambient-grain"></div></div>
@@ -17,7 +17,7 @@
     <header class="topbar">
       <div class="brand-wrap">
         <div class="logo-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="logo-type">muse<span>sink</span><sup>04</sup><small>YOUR LITTLE LISTENING ROOM</small></div>
+        <div class="logo-type">muse<span>sink</span><sup>04.1</sup><small>YOUR LITTLE LISTENING ROOM</small></div>
       </div>
       <div class="topbar-center"><span class="topbar-spark">✦</span> GOOD MUSIC SOUNDS BETTER TOGETHER <span class="topbar-spark">✦</span></div>
       <div class="top-actions"><span class="connect"><span class="connection-dot"></span><span id="connectionLabel">CONNECTING</span></span><span id="listenersLabel" class="listener-summary">0 LISTENERS</span><div class="listener-bubbles" id="listenerBubbles"></div><label class="name-box" for="nicknameInput"><span>HI,</span><input id="nicknameInput" maxlength="24" autocomplete="nickname" aria-label="Your display name" placeholder="Your name"></label><button class="circle-button" type="button" id="helpButton" aria-label="Help">?</button></div>
@@ -29,7 +29,13 @@
       <aside class="library-panel" id="playlistsPanel" aria-label="Record collection">
         <div class="section-heading"><div class="eyebrow"><span class="eyebrow-line"></span> YOUR COLLECTION</div><h2>The record <em>crate.</em></h2><p>Pick a mix. Set the mood.</p></div>
         <div class="library-head"><span id="playlistSummary">1 PLAYLIST · ALL SHARED</span><button id="newPlaylistButton" class="new-button" type="button" aria-label="Create playlist"><span>＋</span> NEW MIX</button></div>
-        <div class="shelf-case"><div class="shelf-stamp">HAND-PICKED & SHARED</div><div class="playlist-grid" id="playlistGrid"></div><div class="wood-rail"></div></div>
+        <div class="shelf-case"><div class="shelf-stamp">HAND-PICKED & SHARED</div><div class="playlist-grid" id="playlistGrid"></div>
+          <div class="crate-highlights" id="crateHighlights">
+            <div class="crate-highlights-heading"><span>✧ ON THIS SHELF</span><span id="shelfTrackCount">0 RECORDS</span></div>
+            <div id="shelfHighlights" class="crate-tracks"><div class="crate-empty">Your collection starts here.</div></div>
+            <div class="crate-highlights-bottom">THE GOOD STUFF, ALL IN ONE PLACE <span>✦</span></div>
+          </div>
+          <div class="wood-rail"></div></div>
         <div class="panel-pager shelf-pager"><button id="playlistPrev" type="button" aria-label="Previous playlist page">←</button><span id="playlistPageText">1 / 1</span><button id="playlistNext" type="button" aria-label="Next playlist page">→</button></div>
         <div class="shelf-note"><span>♪</span> EVERYONE'S LIBRARY, ALL IN ONE PLACE.</div>
       </aside>
@@ -57,12 +63,21 @@
       <section class="tracks-panel" id="tracksPanel" aria-label="Playlist tracks">
         <div class="tracks-head"><div class="eyebrow"><span class="eyebrow-line"></span> THE TRACK LIST <span class="track-tag">SIDE A</span></div><div class="track-toolbar"><span id="songCount" class="mini-pill">0 TRACKS</span><button type="button" id="renamePlaylistButton" class="icon-tool" title="Rename playlist" aria-label="Rename playlist">✎</button><button type="button" id="deletePlaylistButton" class="icon-tool danger" title="Delete playlist" aria-label="Delete playlist">×</button></div></div>
         <h2 id="selectedPlaylistTitle">Main Mix</h2>
-        <p class="tracks-caption">The good stuff, picked by the whole gang.</p>
+        <p class="tracks-caption" id="browseCaption">The good stuff, picked by the whole gang.</p>
         <form id="addForm" class="song-form"><label class="url-field"><span>DROP A LINK IN THE CRATE</span><input id="songUrl" type="text" maxlength="250" placeholder="YouTube link or video ID" required autocomplete="off" inputmode="url"></label><button type="submit" class="add-song" aria-label="Add track to playlist">＋ ADD</button></form>
         <div class="track-subhead"><span>THE LINER NOTES</span><span id="trackPageText">1 / 1</span></div>
         <div class="track-list" id="trackList"></div>
         <div class="track-footer"><span id="nowPlaylistStatus"><span class="tiny-pulse"></span> IN SYNC WITH THE SQUAD</span><div class="pager-small"><button id="trackPrev" type="button" aria-label="Previous track page">←</button><button id="trackNext" type="button" aria-label="Next track page">→</button></div></div>
-        <div class="video-pocket"><div class="video-pocket-head"><span>◉ OFFICIAL YOUTUBE PLAYER</span><a id="youtubeLink" href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">OPEN IN YOUTUBE ↗</a></div><div class="video-holder"><div id="youtubePlayer"></div><div class="video-placeholder" id="videoPlaceholder"><span>♪</span> READY WHEN YOU ARE</div></div><span class="video-pocket-note">A little preview. Your music stays front and center.</span></div>
+        <div class="video-pocket">
+          <div class="video-pocket-head">
+            <span class="video-source-kicker"><span class="source-led"></span> THE SOURCE</span>
+            <strong id="sourceTitle">A window to the music</strong>
+            <small id="sourceBy">YouTube's official player, tucked out of the way.</small>
+            <a id="youtubeLink" href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">OPEN ON YOUTUBE ↗</a>
+            <span class="source-footnote">✦ KEEP THE MUSIC CLOSE</span>
+          </div>
+          <div class="video-holder"><div id="youtubePlayer"></div><div class="video-placeholder" id="videoPlaceholder"><span>♪</span> READY WHEN YOU ARE</div></div>
+        </div>
       </section>
     </main>
 

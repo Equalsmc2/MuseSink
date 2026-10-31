@@ -1,20 +1,16 @@
 # MuseSink changelog
 
-## v4.0 — The Listening Room
-- Replaced the three equal dashboard columns with a **record crate, vinyl turntable, and setlist** layout.
-- Made each playlist feel like a sleeve in a record shop, retaining cover collages and pagination.
-- Added a record with grooves, tonearm, cover sleeve, record label, subtle spinning animation, and handwritten-style liner notes.
-- Introduced a persistent bottom playback dock with album thumbnail, scrubber, sync, volume, and Enable Audio.
-- Moved YouTube video into a small official 200 × 200 preview rather than a large visible video panel.
-- **Library browsing is now independent of playback** — switching playlists for browsing doesn't change the currently playing song.
-- Preserved idle rainbow color, cover-sampled music colors, one shared Firebase hub, and no-page-scroll layouts.
-- Kept the existing Firebase rules and web configuration unchanged.
+## v4.1 — Listening Room polish
+- Rebalanced the record crate: playlists have compact fixed-size sleeves instead of stretching into large empty slots.
+- Added a useful **On this shelf** section that displays up to three real track covers, names, and direct-play controls from the selected playlist.
+- Added an empty-playlist prompt with a little music-shop personality.
+- On short desktop screens, the mini shelf automatically gets out of the way when the library is crowded; no clipped UI.
+- Reorganized the official YouTube source tile with track title, playlist, contributor and link.
+- Refined hover states, player controls, vinyl board, and little record-shop details.
+- Browsing a playlist now explicitly says that the currently playing track won't be interrupted.
+- Reused the existing Firebase root and data schema; **no rule changes required**.
+- Preserves single URL / shared playback, no room codes, no page scrolling and cover-adaptive RGB colors.
 
-## v3.2
-- Blockier UI and compact YouTube playback design.
-
-## v3.1
-- Dark/rainbow appearance with cover-responsive accents.
-
-## v3.0
-- One shared home instead of room codes and separate game music profiles.
+## v4.0 — Record shop
+- Vinyl-inspired turntable, browseable crates, and permanent audio dock.
+- Official 200x200 YouTube embed and shared library.

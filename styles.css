@@ -19,3 +19,110 @@ body.is-playing .record-disc{animation-play-state:running}body.is-playing .playi
 @media(max-height:800px) and (min-width:901px){.shell{grid-template-rows:57px minmax(0,1fr) 104px;gap:9px;padding:9px}.library-panel,.tracks-panel{padding:11px}.library-panel{gap:7px}.shelf-case{padding:7px 5px 9px}.shelf-stamp{display:none}.playlist-grid{gap:6px}.playlist-card{padding:4px}.playlist-covers{width:43px;height:43px;min-width:43px}.player-head h1{font-size:30px}.liner-notes{min-height:80px;padding:9px 12px}.note-doodle{display:none}.video-pocket{min-height:208px;padding:4px;grid-template-rows:auto 200px}.video-pocket-head{gap:5px}.tracks-panel{gap:5px}.track-list{gap:3px}.track-row{height:calc((100% - (var(--rows) - 1)*3px)/var(--rows));max-height:62px}.tracks-caption{display:none}.song-form{margin-top:0}.track-subhead{margin-top:0}.track-footer{min-height:25px}.player-dock{padding:7px 14px}.dock-cover{width:52px;height:52px}}
 @media(max-width:900px){.shell{grid-template-rows:56px 42px minmax(0,1fr) 110px;padding:9px;gap:8px}.topbar{gap:8px}.topbar-center,.listener-summary,.listener-bubbles{display:none}.top-actions{margin-left:auto;gap:6px}.name-box>span{display:none}.name-box input{width:98px}.workspace{display:block}.workspace>section,.workspace>aside{display:none}.workspace>.mobile-active{display:flex;height:100%}.mobile-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.mobile-tabs button{border:1px solid #423733;background:#171415;border-radius:7px;color:#ccbfb6;font-size:10px;font-weight:900;letter-spacing:1px}.mobile-tabs button.active{background:var(--rainbow);color:#161113;border:0}.player-panel{padding:0 6px}.record-disc{width:min(67%,36vh)}.sleeve-wrap{width:min(48%,29vh)}.tracks-panel{gap:8px}.track-list{flex:1}.video-pocket{max-width:370px;align-self:center}.player-dock{grid-template-columns:1fr 1.5fr;gap:9px;padding:10px 13px}.dock-right{display:none}.dock-title{min-width:0}.dock-cover{height:50px;width:50px}}
 @media(max-width:540px){.shell{grid-template-rows:52px 38px minmax(0,1fr) 118px;padding:6px;gap:6px}.logo-type{font-size:21px}.logo-type small{font-size:7px;letter-spacing:.8px}.logo-mark{transform:scale(.78);margin-right:-5px}.connect{padding:7px;font-size:8px}.circle-button{display:none}.name-box input{width:78px;height:30px;font-size:10px}.workspace>.mobile-active{padding:10px}.record-disc{width:68%}.sleeve-wrap{width:50%}.stage-footer{bottom:13px}.liner-notes{min-height:76px;padding:8px 10px}.note-doodle{display:none}.liner-notes h3{font-size:18px}.player-head h1{font-size:29px}.player-dock{display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:6px;padding:8px}.dock-cover{width:38px;height:38px}.dock-label>span,.dock-label small{display:none}.dock-title{min-height:32px}.dock-label strong{font-size:11px}.dock-center{gap:5px}.transport-small{height:28px;width:36px}.play-control{height:30px!important;width:52px}.sync-button{height:27px}.video-pocket{max-width:100%}.playlist-card{gap:8px}.playlist-covers{width:50px;height:50px;min-width:50px}}
+
+/* ── v4.1 : the usable record crate ─────────────────────────────── */
+.library-panel{gap:11px}
+.shelf-case{padding:12px 9px 18px;gap:11px}
+.shelf-stamp{margin:0;font-size:8px;letter-spacing:2.4px}
+.playlist-grid{flex:0 0 auto;grid-template-rows:none;display:flex;flex-direction:column;gap:8px}
+.playlist-card{height:72px;flex:0 0 72px;padding:8px 10px;border-radius:8px;transition:background .14s,border-color .14s,transform .14s}
+.playlist-card:hover:not(.active){background:#252122;transform:translateX(2px);border-color:#62534d}
+.playlist-card.active{background:linear-gradient(110deg,rgba(var(--accent2-rgb),.13),#211b1e 40%,#191618)}
+.playlist-card .playing-flag{font-size:7px;letter-spacing:.5px;top:7px;right:7px}
+.playlist-card .playlist-text strong{font-size:14px;max-width:180px}
+.playlist-covers{width:51px;height:51px;min-width:51px}
+.shelf-case::after{content:'';position:absolute;inset:auto 10px 7px;height:1px;background:#94746330;pointer-events:none}
+.crate-highlights{display:flex;flex-direction:column;gap:8px;flex:1;min-height:0;padding:13px 6px 0;border-top:1px solid #4b3a323b;overflow:hidden}
+.crate-highlights-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#d8c8b9;font-size:9px;font-weight:900;letter-spacing:1.35px;white-space:nowrap}
+.crate-highlights-heading span:last-child{color:#8e837b;font-size:8px}
+.crate-tracks{display:flex;flex:0 1 auto;flex-direction:column;gap:6px;min-height:0;overflow:hidden}
+.crate-track{display:flex;align-items:center;gap:8px;width:100%;height:54px;min-height:45px;padding:5px 6px;border-radius:6px;border:1px solid #38302e;background:#171516;text-align:left;transition:background .16s,border-color .16s}
+.crate-track:hover{background:#2a2224;border-color:rgba(var(--accent2-rgb),.47)}
+.crate-track img{width:44px;height:42px;object-fit:cover;border-radius:3px;flex:none;background:#070707}
+.crate-track-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:4px}
+.crate-track-copy strong{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#f2eae2}
+.crate-track-copy small{font-size:9px;color:#a89b92;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crate-track-play{font-size:10px;color:var(--accent2);padding:7px 5px}
+.crate-more{font-size:9px;font-weight:800;letter-spacing:.8px;color:#a99b90;padding:0 4px}
+.crate-highlights-bottom{margin-top:auto;color:#8c7d76;font:italic 10px Georgia,serif;letter-spacing:.45px;text-align:center;padding:6px 0 3px;white-space:nowrap}
+.crate-highlights-bottom span{color:var(--accent2);margin-left:5px}
+.crate-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:100px;text-align:center;padding:15px 7px;color:#9f9189;border:1px dashed #413331;border-radius:7px;background:radial-gradient(circle at 50% 0%,rgba(var(--accent-rgb),.07),transparent 65%),#151314}
+.crate-empty-glyph{font:36px Georgia,serif;background:var(--rainbow);background-clip:text;-webkit-background-clip:text;color:transparent}
+.crate-empty strong{color:#d7c9c0;font-size:11px}
+.crate-empty>span:last-child{max-width:210px;font-size:10px;line-height:1.5}
+/* Empty library occupies space intentionally, while the playlist stack stays compact. */
+.playlist-empty{min-height:78px;flex:none}
+.shelf-pager{padding:0 2px}
+
+/* ── v4.1 : focused player and source card ────────────────────── */
+.player-head{padding-left:9px;padding-right:9px}
+.player-head h1{letter-spacing:-1.5px}
+.player-panel{gap:10px}
+.turntable-board{box-shadow:inset 0 2px 2px #fff1,inset 0 -16px 28px #000b,0 12px 30px #0007,0 0 0 1px #88726315}
+.sleeve-wrap{filter:drop-shadow(7px 9px 12px #0008)}
+.liner-notes{box-shadow:0 3px 0 #0004,inset 0 1px 0 #ffffff82}
+.track-row{transition:background .16s,border-color .16s}
+.track-row:hover{background:#272021;border-color:#564341}
+.track-row.current:hover{border-color:var(--accent2)}
+.track-actions button{min-height:28px;min-width:28px}
+.video-pocket{gap:8px;min-height:216px;padding:8px;grid-template-rows:200px;grid-template-columns:minmax(0,1fr) 200px}
+.video-pocket-head{grid-column:1;grid-row:1;align-self:stretch;display:flex;flex-direction:column;align-items:flex-start;gap:9px;padding:9px 5px 3px;min-width:0}
+.video-source-kicker{font-size:9px;font-weight:900;letter-spacing:1.3px;color:#ccbfb2;display:flex;align-items:center;gap:7px}
+.source-led{height:7px;width:7px;display:inline-block;border-radius:50%;background:#8cf0b7;box-shadow:0 0 12px #64dba0}
+.video-pocket-head strong{font-family:Georgia,serif;font-size:clamp(15px,1.25vw,18px);font-weight:400;line-height:1.24;color:#f0e4d9;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;max-width:100%}
+.video-pocket-head small{font-size:10px;color:#aea198;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.video-pocket-head a{font-size:9px;letter-spacing:.3px;margin-top:auto;color:var(--accent2);padding:4px 0}
+.source-footnote{display:block!important;font:italic 9px Georgia,serif!important;letter-spacing:.5px!important;color:#998b82!important}
+.video-holder{grid-column:2;grid-row:1;height:200px;width:200px}
+.video-holder iframe{display:block}
+.player-dock{box-shadow:0 12px 34px #0007,0 0 0 1px #6e54461a}
+.transport button:not(:disabled):hover,.panel-pager button:not(:disabled):hover,.pager-small button:not(:disabled):hover{border-color:rgba(var(--accent2-rgb),.45)}
+.play-control:not(:disabled):hover{filter:brightness(1.12)}
+
+@media (max-width:1190px) and (min-width:901px){
+  .playlist-card{height:65px;flex-basis:65px}
+  .playlist-covers{width:45px;height:45px;min-width:45px}
+  .crate-track{height:49px}
+  .crate-track img{width:39px;height:39px}
+  .video-pocket{grid-template-columns:minmax(0,1fr) 200px}
+  .video-pocket-head{padding:5px 0}
+  .source-footnote{display:none!important}
+}
+@media (max-height:800px) and (min-width:901px){
+  .shelf-case{padding:9px 6px 12px;gap:7px}
+  .playlist-card{height:56px;flex-basis:56px;padding:4px 6px}
+  .playlist-covers{width:42px;height:42px;min-width:42px}
+  .crate-highlights{padding-top:8px;gap:5px}
+  .crate-track{height:42px;min-height:40px;padding:3px}
+  .crate-track img{width:35px;height:35px}
+  .crate-empty{min-height:72px;padding:8px}
+  .crate-empty-glyph{font-size:24px}
+  .crate-highlights-bottom{display:none}
+  .video-pocket{padding:4px;min-height:208px}
+  .video-pocket-head strong{font-size:14px}
+  .video-pocket-head small{font-size:9px}
+}
+@media (max-height:800px) and (min-width:901px){
+  .crate-highlights.dense-library{display:none}
+}
+@media (max-width:900px){
+  .shelf-case{padding:12px 8px 16px}
+  .playlist-card{height:68px;flex-basis:68px}
+  .crate-highlights{gap:6px}
+  .crate-track{min-height:42px}
+  .video-pocket{max-width:370px}
+}
+@media (max-width:540px){
+  .shelf-case{gap:8px;padding:8px 5px 12px}
+  .playlist-card{height:58px;flex-basis:58px}
+  .playlist-covers{height:42px;width:42px;min-width:42px}
+  .crate-highlights{padding:8px 4px 0}
+  .crate-track{min-height:36px;height:39px}
+  .crate-track img{width:34px;height:32px}
+  .crate-highlights-bottom{display:none}
+  .video-pocket{grid-template-columns:minmax(0,1fr) 200px;max-width:100%}
+  .video-pocket-head{gap:6px}
+  .video-pocket-head small{display:none}
+  .video-pocket-head strong{font-size:14px}
+  .source-footnote{display:none!important}
+}

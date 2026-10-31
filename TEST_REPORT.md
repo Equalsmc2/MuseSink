@@ -1,17 +1,15 @@
-# MuseSink v4.0 test report
+# MuseSink v4.1 test results
 
-## Local tests
+## Passed local checks
+- JavaScript syntax: `node --check app.js`.
+- Headless Chromium UI tests at 1536×950, 1440×768, 1280×720, 390×844.
+- No document page scrolling at those viewports.
+- No JavaScript page errors in the local stubbed environment.
+- Playlist creation, adding a track, renaming, and compare-and-swap end-of-song guard.
+- Browsing an alternate playlist leaves the shared playback unchanged.
+- Pausing restores rainbow idle accents; playing a track switches the shared selection.
+- One-playlist visual layout with five tracks also tested.
 
-- JavaScript syntax check: PASS
-- Browser runtime with mock local hub: PASS (Chromium)
-- 1536×950 desktop: no document scrolling, page render: PASS
-- 1440×768 desktop: no document scrolling, page render: PASS
-- 1280×720 desktop: no document scrolling, page render: PASS
-- 390×844 phone: no document scrolling, tab navigation: PASS
-- Create / rename playlists and add YouTube song URL: PASS (local)
-- Playback compare-and-swap preventing duplicate advances: PASS (local)
-- Independent local playlist browsing: verified by follow-up regression test
-
-## Not verified
-
-The online Firebase service could not be authenticated in these isolated local browser tests. Actual two-computer sync, YouTube playback availability, and cover image sampling depend on the deployed website and YouTube/browser restrictions, and still need a real-device check.
+## Not fully tested
+- Real Firebase writes and two-device YouTube synchronization require the published hosted site and external services.
+- YouTube videos and album covers may appear black in local screenshots because external media isn't fetched by the isolated browser test.

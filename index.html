@@ -2,76 +2,81 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#080b15">
-  <meta name="description" content="MuseSink — one shared music space, synchronized across the squad.">
-  <title>MuseSink // The shared soundtrack</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080808">
+  <meta name="description" content="MuseSink — your shared little record shop. Playlists, cover art, and one soundtrack for the squad.">
+  <title>MuseSink — The Listening Room</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=3.2.0">
+  <link rel="stylesheet" href="styles.css?v=4.0.0">
   <script src="firebase-config.js?v=3.0.1"></script>
-  <script src="app.js?v=3.2.0" defer></script>
+  <script src="app.js?v=4.0.0" defer></script>
 </head>
 <body>
-<div class="ambient" aria-hidden="true"><div class="ambient-cover" id="ambientCover"></div><div class="ambient-mesh"></div></div>
-<div class="shell">
-  <header class="topbar">
-    <div class="brand-wrap">
-      <div class="logo-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-      <div class="logo-type">muse<span>sink</span><sup>3.2</sup><small>THE SHARED SOUNDTRACK</small></div>
-    </div>
-    <div class="top-center"><span class="connect"><span class="connection-dot"></span><span id="connectionLabel">CONNECTING</span></span><span class="header-divider"></span><span id="listenersLabel" class="listener-summary">0 LISTENERS</span><div class="listener-bubbles" id="listenerBubbles"></div></div>
-    <div class="top-actions"><label class="name-box" for="nicknameInput"><span>YOU ARE</span><input id="nicknameInput" maxlength="24" autocomplete="nickname" aria-label="Your display name" placeholder="Your name"></label><button class="circle-button" type="button" id="helpButton" aria-label="Help">?</button></div>
-  </header>
-
-  <nav class="mobile-tabs" aria-label="Sections"><button class="active" type="button" data-panel="player">NOW PLAYING</button><button type="button" data-panel="playlists">PLAYLISTS</button><button type="button" data-panel="tracks">TRACKS</button></nav>
-
-  <main class="workspace">
-    <section class="panel player-panel" id="playerPanel" aria-label="Now playing">
-      <div class="panel-heading"><div><div class="kicker"><i class="status-light"></i> LIVE PLAYER</div><h1>On the <em>same beat.</em></h1></div><span id="playingBadge" class="mini-pill">IDLE</span></div>
-      <div class="album-display">
-        <img id="albumArt" alt="Current track cover art" loading="eager">
-        <div class="album-placeholder" id="albumPlaceholder" aria-hidden="true"><span class="placeholder-wave">◈</span><strong>YOUR NEXT OBSESSION</strong><small>Add a song to get things moving</small></div>
-        <div class="album-shine"></div>
-        <div class="album-label"><span class="album-eyebrow">NOW PLAYING / MUSESYNC</span><strong id="currentTitle">Nothing playing yet</strong><span id="currentBy">Drop a YouTube link in a playlist</span></div>
+  <div class="ambient" aria-hidden="true"><div class="ambient-cover"></div><div class="ambient-grain"></div></div>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand-wrap">
+        <div class="logo-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="logo-type">muse<span>sink</span><sup>04</sup><small>YOUR LITTLE LISTENING ROOM</small></div>
       </div>
-      <div class="player-bottom">
-        <div class="playback-time"><span id="elapsedTime">0:00</span><input id="timeline" type="range" min="0" max="1000" value="0" aria-label="Seek song"><span id="durationTime">0:00</span></div>
-        <div class="transport">
-          <button type="button" id="previousButton" class="transport-small" title="Previous track" aria-label="Previous track">⏮</button>
-          <button type="button" id="playButton" class="play-control" title="Play or pause" aria-label="Play or pause">▶</button>
-          <button type="button" id="nextButton" class="transport-small" title="Next track" aria-label="Next track">⏭</button>
-          <button type="button" id="resyncButton" class="sync-button" title="Resync to everyone else">↻ SYNC</button>
-        </div>
-        <div class="audio-actions"><button id="armButton" type="button" class="arm-button">▶ ENABLE AUDIO</button><div class="volume-group"><span>VOL</span><input id="volume" type="range" min="0" max="100" value="65" aria-label="Your volume"></div></div>
-        <div class="engine-strip">
-          <div class="engine-badge"><span class="engine-dot"></span><span>YOUTUBE AUDIO ENGINE</span></div>
-          <div class="engine-copy">Hidden video · shared audio only</div>
-          <div class="engine-mini" id="videoPlaceholder"><span>▶</span><b>READY</b></div>
-        </div>
-        <div class="hidden-player-shell" aria-hidden="true"><div id="youtubePlayer"></div></div>
-      </div>
-    </section>
+      <div class="topbar-center"><span class="topbar-spark">✦</span> GOOD MUSIC SOUNDS BETTER TOGETHER <span class="topbar-spark">✦</span></div>
+      <div class="top-actions"><span class="connect"><span class="connection-dot"></span><span id="connectionLabel">CONNECTING</span></span><span id="listenersLabel" class="listener-summary">0 LISTENERS</span><div class="listener-bubbles" id="listenerBubbles"></div><label class="name-box" for="nicknameInput"><span>HI,</span><input id="nicknameInput" maxlength="24" autocomplete="nickname" aria-label="Your display name" placeholder="Your name"></label><button class="circle-button" type="button" id="helpButton" aria-label="Help">?</button></div>
+    </header>
 
-    <section class="panel playlist-panel" id="playlistsPanel" aria-label="Playlists">
-      <div class="panel-heading"><div><div class="kicker">YOUR LIBRARY</div><h2>Playlists<span class="period">.</span></h2></div><button id="newPlaylistButton" type="button" class="create-button"><span>＋</span> NEW</button></div>
-      <div class="playlist-tools"><span id="playlistSummary">ONE SPACE. ALL YOUR MUSIC.</span><span id="playlistPageText">1 / 1</span></div>
-      <div id="playlistGrid" class="playlist-grid"></div>
-      <div class="panel-pager"><button id="playlistPrev" type="button" aria-label="Previous playlist page">‹</button><span>YOUR COLLECTION</span><button id="playlistNext" type="button" aria-label="Next playlist page">›</button></div>
-    </section>
+    <nav class="mobile-tabs" aria-label="Sections"><button type="button" data-panel="playlists">LIBRARY</button><button class="active" type="button" data-panel="player">PLAYER</button><button type="button" data-panel="tracks">SONGS</button></nav>
 
-    <section class="panel tracks-panel" id="tracksPanel" aria-label="Playlist tracks">
-      <div class="panel-heading"><div><div class="kicker">UP NEXT / SHARED QUEUE</div><h2 id="selectedPlaylistTitle">Main Mix</h2></div><div class="track-toolbar"><span id="songCount" class="mini-pill">0 TRACKS</span><button type="button" id="renamePlaylistButton" class="icon-tool" title="Rename playlist" aria-label="Rename playlist">✎</button><button type="button" id="deletePlaylistButton" class="icon-tool danger" title="Delete playlist" aria-label="Delete playlist">×</button></div></div>
-      <form id="addForm" class="song-form"><label class="url-field"><span>ADD FROM YOUTUBE</span><input id="songUrl" type="text" maxlength="250" placeholder="Paste a YouTube link or video ID" required autocomplete="off" inputmode="url"></label><button type="submit" class="add-song" aria-label="Add track to playlist">＋ ADD</button></form>
-      <div class="track-subhead"><span>COVER / TRACK / ADDED BY</span><span id="trackPageText">1 / 1</span></div>
-      <div id="trackList" class="track-list"></div>
-      <div class="track-footer"><span id="nowPlaylistStatus"><span class="tiny-pulse"></span> EVERYONE HEARS THE SAME TRACK</span><div class="pager-small"><button id="trackPrev" type="button" aria-label="Previous track page">‹</button><button id="trackNext" type="button" aria-label="Next track page">›</button></div></div>
-    </section>
-  </main>
-  <div id="statusBanner" class="status-banner" hidden><span id="statusText"></span><button id="dismissStatus" type="button" title="Dismiss status">×</button></div>
-</div>
-<div id="toast" class="toast" role="status" aria-live="polite"></div>
-<dialog id="playlistDialog" class="modal"><form method="dialog" id="playlistForm"><div class="dialog-top"><span id="dialogEyebrow">NEW PLAYLIST</span><button id="closePlaylistDialog" type="button" aria-label="Close">×</button></div><h3 id="dialogTitle">Name your playlist</h3><label for="playlistNameInput">PLAYLIST NAME</label><input id="playlistNameInput" required maxlength="38" placeholder="Late Night Queue" autocomplete="off"><p>Everyone will see this playlist instantly.</p><div class="dialog-actions"><button type="button" id="cancelPlaylistDialog" class="cancel-button">CANCEL</button><button type="submit" id="savePlaylistButton" class="confirm-button">CREATE PLAYLIST</button></div></form></dialog>
-<dialog id="confirmDialog" class="modal"><div class="dialog-top"><span>DELETE PLAYLIST</span><button id="closeConfirm" type="button" aria-label="Close">×</button></div><h3>Delete this playlist?</h3><p id="confirmMessage">This will remove the playlist and its songs from the shared library.</p><div class="dialog-actions"><button type="button" id="cancelConfirm" class="cancel-button">KEEP IT</button><button type="button" id="doDelete" class="confirm-button destructive">DELETE</button></div></dialog>
-<dialog id="helpDialog" class="modal"><div class="dialog-top"><span>MUSESINK / HELP</span><button id="closeHelp" type="button" aria-label="Close help">×</button></div><h3>Just open. Press play.</h3><p>There's only one shared space. Everyone who opens this site sees the same playlists, songs and playback. Create playlists, paste YouTube links and listen together. No room codes or accounts required.</p><p>Click <b>ENABLE AUDIO</b> once per browser. Your volume stays personal. YouTube playback still requires an allowed embedded video and an internet connection.</p><p id="helpConnectionNote"></p><div class="dialog-actions"><button type="button" id="closeHelpBottom" class="confirm-button">GOT IT</button></div></dialog>
+    <main class="workspace">
+      <aside class="library-panel" id="playlistsPanel" aria-label="Record collection">
+        <div class="section-heading"><div class="eyebrow"><span class="eyebrow-line"></span> YOUR COLLECTION</div><h2>The record <em>crate.</em></h2><p>Pick a mix. Set the mood.</p></div>
+        <div class="library-head"><span id="playlistSummary">1 PLAYLIST · ALL SHARED</span><button id="newPlaylistButton" class="new-button" type="button" aria-label="Create playlist"><span>＋</span> NEW MIX</button></div>
+        <div class="shelf-case"><div class="shelf-stamp">HAND-PICKED & SHARED</div><div class="playlist-grid" id="playlistGrid"></div><div class="wood-rail"></div></div>
+        <div class="panel-pager shelf-pager"><button id="playlistPrev" type="button" aria-label="Previous playlist page">←</button><span id="playlistPageText">1 / 1</span><button id="playlistNext" type="button" aria-label="Next playlist page">→</button></div>
+        <div class="shelf-note"><span>♪</span> EVERYONE'S LIBRARY, ALL IN ONE PLACE.</div>
+      </aside>
+
+      <section class="player-panel mobile-active" id="playerPanel" aria-label="Now playing">
+        <div class="player-head"><div><div class="eyebrow"><span class="playing-led"></span> THE TURNTABLE</div><h1>Now <em>spinning.</em></h1></div><div class="mini-pill" id="playingBadge">IDLE</div></div>
+        <div class="turntable-stage" id="turntableStage">
+          <div class="turntable-board" aria-hidden="true"></div>
+          <div class="record-disc" aria-hidden="true"><div class="record-grooves"><div class="record-label"><span>MUSE</span><b>45</b><span>SINK</span></div></div></div>
+          <div class="tone-arm" aria-hidden="true"><i></i></div>
+          <div class="sleeve-wrap">
+            <div class="sleeve-spine" aria-hidden="true"></div>
+            <div class="album-display">
+              <img id="albumArt" hidden alt="Current track cover art" loading="eager">
+              <div class="album-placeholder" id="albumPlaceholder" aria-hidden="true"><span class="placeholder-wave">♫</span><strong>NOTHING ON THE PLATTER</strong><small>Your next favorite song is one click away.</small></div>
+              <div class="sleeve-shine"></div>
+            </div>
+            <div class="sleeve-sticker" aria-hidden="true">MUSE / 001</div>
+          </div>
+          <div class="stage-footer" aria-hidden="true"><span>33⅓ RPM</span><span>✦</span><span>SIDE A</span></div>
+        </div>
+        <div class="liner-notes"><div class="note-kicker"><span>♪</span> ON THE TURNTABLE <span class="note-line"></span> <span id="playlistNowName">MAIN MIX</span></div><h3 id="currentTitle">Nothing playing yet</h3><p id="currentBy">Find a record in the crate and press play.</p><div class="note-doodle">✧  KEEP THE GOOD ONES CLOSE.</div></div>
+      </section>
+
+      <section class="tracks-panel" id="tracksPanel" aria-label="Playlist tracks">
+        <div class="tracks-head"><div class="eyebrow"><span class="eyebrow-line"></span> THE TRACK LIST <span class="track-tag">SIDE A</span></div><div class="track-toolbar"><span id="songCount" class="mini-pill">0 TRACKS</span><button type="button" id="renamePlaylistButton" class="icon-tool" title="Rename playlist" aria-label="Rename playlist">✎</button><button type="button" id="deletePlaylistButton" class="icon-tool danger" title="Delete playlist" aria-label="Delete playlist">×</button></div></div>
+        <h2 id="selectedPlaylistTitle">Main Mix</h2>
+        <p class="tracks-caption">The good stuff, picked by the whole gang.</p>
+        <form id="addForm" class="song-form"><label class="url-field"><span>DROP A LINK IN THE CRATE</span><input id="songUrl" type="text" maxlength="250" placeholder="YouTube link or video ID" required autocomplete="off" inputmode="url"></label><button type="submit" class="add-song" aria-label="Add track to playlist">＋ ADD</button></form>
+        <div class="track-subhead"><span>THE LINER NOTES</span><span id="trackPageText">1 / 1</span></div>
+        <div class="track-list" id="trackList"></div>
+        <div class="track-footer"><span id="nowPlaylistStatus"><span class="tiny-pulse"></span> IN SYNC WITH THE SQUAD</span><div class="pager-small"><button id="trackPrev" type="button" aria-label="Previous track page">←</button><button id="trackNext" type="button" aria-label="Next track page">→</button></div></div>
+        <div class="video-pocket"><div class="video-pocket-head"><span>◉ OFFICIAL YOUTUBE PLAYER</span><a id="youtubeLink" href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">OPEN IN YOUTUBE ↗</a></div><div class="video-holder"><div id="youtubePlayer"></div><div class="video-placeholder" id="videoPlaceholder"><span>♪</span> READY WHEN YOU ARE</div></div><span class="video-pocket-note">A little preview. Your music stays front and center.</span></div>
+      </section>
+    </main>
+
+    <footer class="player-dock">
+      <div class="dock-title"><div class="dock-cover"><img id="dockArt" alt="" hidden><span id="dockFallback">♫</span></div><div class="dock-label"><span>YOU'RE LISTENING TO</span><strong id="dockTitle">The sound of possibility</strong><small id="dockPlaylist">Pick a track to begin</small></div></div>
+      <div class="dock-center"><div class="transport"><button type="button" id="previousButton" class="transport-small" title="Previous track" aria-label="Previous track">⏮</button><button type="button" id="playButton" class="play-control" title="Play or pause" aria-label="Play or pause">▶</button><button type="button" id="nextButton" class="transport-small" title="Next track" aria-label="Next track">⏭</button><button type="button" id="resyncButton" class="sync-button" title="Resync with the squad">↻ SYNC</button></div><div class="playback-time"><span id="elapsedTime">0:00</span><input id="timeline" type="range" min="0" max="1000" value="0" aria-label="Seek song"><span id="durationTime">0:00</span></div></div>
+      <div class="dock-right"><button id="armButton" type="button" class="arm-button">▶ ENABLE AUDIO</button><div class="volume-group"><span>VOL</span><input id="volume" type="range" min="0" max="100" value="65" aria-label="Your volume"></div><span class="dock-signoff">MADE FOR THE BOYS ♡</span></div>
+    </footer>
+    <div id="statusBanner" class="status-banner" hidden><span id="statusText"></span><button id="dismissStatus" type="button" title="Dismiss status">×</button></div>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <dialog id="playlistDialog" class="modal"><form method="dialog" id="playlistForm"><div class="dialog-top"><span id="dialogEyebrow">NEW MIX</span><button id="closePlaylistDialog" type="button" aria-label="Close">×</button></div><h3 id="dialogTitle">Give this mix a name</h3><label for="playlistNameInput">THE LABEL</label><input id="playlistNameInput" required maxlength="38" placeholder="Late Night Drive" autocomplete="off"><p>Everyone will find it in the record crate.</p><div class="dialog-actions"><button type="button" id="cancelPlaylistDialog" class="cancel-button">CANCEL</button><button type="submit" id="savePlaylistButton" class="confirm-button">CREATE PLAYLIST</button></div></form></dialog>
+  <dialog id="confirmDialog" class="modal"><div class="dialog-top"><span>DELETE THIS MIX?</span><button id="closeConfirm" type="button" aria-label="Close">×</button></div><h3>Put this one away?</h3><p id="confirmMessage">This will remove the playlist and its songs from the shared library.</p><div class="dialog-actions"><button type="button" id="cancelConfirm" class="cancel-button">KEEP IT</button><button type="button" id="doDelete" class="confirm-button destructive">DELETE</button></div></dialog>
+  <dialog id="helpDialog" class="modal"><div class="dialog-top"><span>MUSESINK / LISTENING NOTES</span><button id="closeHelp" type="button" aria-label="Close help">×</button></div><h3>Welcome to the record shop.</h3><p>Everyone who opens this site shares one music library. Pick a playlist, paste a YouTube link, and the whole squad hears the same track. No codes, no extra rooms.</p><p>Press <b>ENABLE AUDIO</b> once. Your volume is personal. The small YouTube player remains available for official video playback.</p><p id="helpConnectionNote"></p><div class="dialog-actions"><button type="button" id="closeHelpBottom" class="confirm-button">LET'S LISTEN</button></div></dialog>
 </body>
 </html>

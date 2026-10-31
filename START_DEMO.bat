@@ -1,18 +1,15 @@
 @echo off
+setlocal
 cd /d "%~dp0"
+echo MuseSink v3.0 - Local preview
+ echo Open http://localhost:8765 in your browser.
+echo To connect with friends online, publish to GitHub Pages
+ echo and enable the new Firebase rules.
 echo.
-echo  ===================================================
-echo   MuseSink v2 - lightweight local preview
- echo  ===================================================
-echo.
-where py >nul 2>nul
-if %errorlevel%==0 (
-  start "" /B py -m http.server 5500
+where py >nul 2>&1
+if not errorlevel 1 (
+  py -3 -m http.server 8765
 ) else (
-  start "" /B python -m http.server 5500
+  python -m http.server 8765
 )
-timeout /t 2 /nobreak >nul
-start "" "http://localhost:5500"
-echo  Open at http://localhost:5500
- echo  Keep this window open while testing. Close it to stop.
-pause >nul
+pause

@@ -1,43 +1,32 @@
-# MuseSink v2.4 — RGB Edition
+# MuseSink 3.0 — Zero Friction Edition
 
-MuseSink is a lightweight shared listening room for you and your friends.
+MuseSink is a lightweight synchronized YouTube music website for a trusted gaming squad. It is built with **plain HTML, CSS and JavaScript**, plus Firebase Auth/Realtime Database and the official YouTube IFrame player.
 
-## What this version is
-This build is the **single-layout refresh**:
-- one shared queue
-- one room
-- one full-screen dashboard
-- no separate music profiles
-- dynamic RGB-style colors that react to the current track cover art
+## User experience
 
-## Core features
-- Create a room or join using an 8-character room code
-- Paste YouTube links into the shared queue
-- A DJ controls play / pause / skip / seek
-- Listeners click **Enable My Audio** once to satisfy browser autoplay rules
-- Firebase Realtime Database can sync the room across different computers
-- If Firebase fails, MuseSink falls back to local demo mode
+There is **one shared listening space**. Everyone simply opens the same site URL. No room creation, room IDs, invites or music profiles.
 
-## Files that matter most
-- `index.html` — app shell
-- `styles.css` — full UI and responsive layout
-- `app.js` — room logic, YouTube control, sync, and dynamic theme logic
-- `firebase-config.js` — public Firebase web configuration
-- `database.rules.json` — Firebase Realtime Database rules
+- Make as many playlists as you want; rename or delete them.
+- Each playlist shows a collage of actual song covers.
+- Every track displays its YouTube thumbnail, title and contributor.
+- Anyone can add songs, select playlists or operate the transport; all actions synchronize.
+- Song cover art drives the RGB color scheme, with a stable fallback for blocked image sampling.
+- The layout has **no browser-page scroll**. Page arrows reveal additional playlists and songs; on mobile the three sections are accessible through tabs.
+- Volume is saved locally, and each listener enables YouTube audio themselves.
 
-## Go live
-1. Put these files in your GitHub repository.
-2. Push to GitHub.
-3. Enable GitHub Pages.
-4. Open the site and confirm the top status shows **LIVE SYNC**.
+## Setup and installation
 
-## Firebase reminders
-Make sure:
-- **Anonymous Authentication** is enabled
-- **Realtime Database rules** are published
-- the database URL in `firebase-config.js` is correct
+Read **GO_LIVE.md**. Most importantly, publish the new `database.rules.json` file in Firebase before deploying the code. Use `INSTALL_TO_GITHUB.bat` to install into GitHub Desktop, then commit and push.
 
-## Notes
-- MuseSink does **not** rip audio from YouTube.
-- It uses the official embedded YouTube player.
-- The RGB theme is generated from the current track thumbnail when available.
+## Data model
+
+- `musesinkHub/v1/playlists/{playlistId}`: playlist metadata
+- `musesinkHub/v1/tracks/{playlistId}/{trackId}`: YouTube link metadata
+- `musesinkHub/v1/playback`: active playlist and shared player position
+- `musesinkHub/v1/presence/{anonymousUid}`: connected listeners
+
+Old `musesinkRooms` nodes are not used or modified. Avoid exposing personal information in this trusted-group app: anonymous auth permits site visitors to collaborate.
+
+## Testing
+
+See `TEST_REPORT.md` for the performed checks and remaining required live verification.

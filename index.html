@@ -7,9 +7,9 @@
   <meta name="description" content="MuseSink — one shared music space, synchronized across the squad.">
   <title>MuseSink // The shared soundtrack</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=3.0.1">
+  <link rel="stylesheet" href="styles.css?v=3.2.0">
   <script src="firebase-config.js?v=3.0.1"></script>
-  <script src="app.js?v=3.0.1" defer></script>
+  <script src="app.js?v=3.2.0" defer></script>
 </head>
 <body>
 <div class="ambient" aria-hidden="true"><div class="ambient-cover" id="ambientCover"></div><div class="ambient-mesh"></div></div>
@@ -17,7 +17,7 @@
   <header class="topbar">
     <div class="brand-wrap">
       <div class="logo-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-      <div class="logo-type">muse<span>sink</span><sup>3.0</sup><small>THE SHARED SOUNDTRACK</small></div>
+      <div class="logo-type">muse<span>sink</span><sup>3.2</sup><small>THE SHARED SOUNDTRACK</small></div>
     </div>
     <div class="top-center"><span class="connect"><span class="connection-dot"></span><span id="connectionLabel">CONNECTING</span></span><span class="header-divider"></span><span id="listenersLabel" class="listener-summary">0 LISTENERS</span><div class="listener-bubbles" id="listenerBubbles"></div></div>
     <div class="top-actions"><label class="name-box" for="nicknameInput"><span>YOU ARE</span><input id="nicknameInput" maxlength="24" autocomplete="nickname" aria-label="Your display name" placeholder="Your name"></label><button class="circle-button" type="button" id="helpButton" aria-label="Help">?</button></div>
@@ -43,7 +43,12 @@
           <button type="button" id="resyncButton" class="sync-button" title="Resync to everyone else">↻ SYNC</button>
         </div>
         <div class="audio-actions"><button id="armButton" type="button" class="arm-button">▶ ENABLE AUDIO</button><div class="volume-group"><span>VOL</span><input id="volume" type="range" min="0" max="100" value="65" aria-label="Your volume"></div></div>
-        <div class="video-slot"><div class="video-head"><span>YOUTUBE PLAYER</span><span>OFFICIAL EMBED</span></div><div class="video-holder"><div id="youtubePlayer"></div><div class="video-placeholder" id="videoPlaceholder"><span>▶</span> PLAYER READY WHEN YOU ARE</div></div></div>
+        <div class="engine-strip">
+          <div class="engine-badge"><span class="engine-dot"></span><span>YOUTUBE AUDIO ENGINE</span></div>
+          <div class="engine-copy">Hidden video · shared audio only</div>
+          <div class="engine-mini" id="videoPlaceholder"><span>▶</span><b>READY</b></div>
+        </div>
+        <div class="hidden-player-shell" aria-hidden="true"><div id="youtubePlayer"></div></div>
       </div>
     </section>
 

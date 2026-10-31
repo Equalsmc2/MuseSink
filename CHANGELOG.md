@@ -1,16 +1,20 @@
-# MuseSink — Changelog
+# MuseSink changelog
 
-## 3.0 — One Space, Many Playlists
+## v3.2
+- Reworked the UI into a more blocky, harder-edged layout.
+- Removed the large visible YouTube video area from the interface.
+- Kept the YouTube player hidden in the background for playback compatibility.
+- Tightened the layout and made the player controls more compact and readable.
+- Preserved the black idle theme with rainbow accents and dynamic cover-based playback colors.
+- Kept the no-scroll single-page desktop layout.
 
-- Removed room creation, room joining, invite URLs and eight-character codes.
-- Removed all game-specific playlists and profile switching.
-- Added automatic entrance to one Firebase-shared listening space.
-- Added shared playlist creation, renaming, deletion and selection.
-- Added 2×2 playlist cover mosaics, song thumbnails, and paging controls.
-- All listeners can control music; per-listener volume stays local.
-- Automatic end-of-song advancement now uses an atomic playback compare-and-swap to prevent multiple listeners from skipping multiple songs.
-- Retained and hardened low-disruption YouTube sync and manual resync.
-- Redesigned the UI for one screen, no scrolling and no overlapping controls.
-- Added mobile Player / Playlists / Tracks tabs.
-- Retained the v2.4 Firebase configuration and cover-responsive RGB theming.
-- Introduced new **musesinkHub/v1** database rules. The old `musesinkRooms` data is left unchanged.
+## v3.1
+- Restyled the entire interface around a black base with rainbow accents.
+- Idle state now uses a rainbow palette instead of the blue theme.
+- Active playback keeps the dynamic color shift, now driven by the current track cover colors.
+- Improved panel, button and playlist visuals for a cleaner, less blue look.
+- Preserved the no-scroll desktop layout and shared-playlist flow.
+
+## v3.0
+- Replaced room codes with one shared listening space.
+- Added shared playlists and cover thumbnails.

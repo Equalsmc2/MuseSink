@@ -1,32 +1,34 @@
-# MuseSink 3.0 — Zero Friction Edition
+# MuseSink v3.2
 
-MuseSink is a lightweight synchronized YouTube music website for a trusted gaming squad. It is built with **plain HTML, CSS and JavaScript**, plus Firebase Auth/Realtime Database and the official YouTube IFrame player.
+MuseSink is a lightweight shared music site for a private friend group. Everybody who opens the same URL sees the same playlists and hears the same shared playback.
 
-## User experience
+## Highlights
+- One permanent shared space, no room codes
+- Multiple shared playlists with cover art
+- Black UI with rainbow idle accents
+- Dynamic theme colors from the current song cover while music is playing
+- Blockier, more compact UI layout
+- Hidden YouTube playback engine instead of a giant visible video section
+- Desktop layout designed to avoid scrolling
+- Mobile tab layout for smaller screens
 
-There is **one shared listening space**. Everyone simply opens the same site URL. No room creation, room IDs, invites or music profiles.
+## Files
+- `index.html`
+- `styles.css`
+- `app.js`
+- `firebase-config.js`
+- `database.rules.json`
+- `INSTALL_TO_GITHUB.bat`
+- `START_DEMO.bat`
 
-- Make as many playlists as you want; rename or delete them.
-- Each playlist shows a collage of actual song covers.
-- Every track displays its YouTube thumbnail, title and contributor.
-- Anyone can add songs, select playlists or operate the transport; all actions synchronize.
-- Song cover art drives the RGB color scheme, with a stable fallback for blocked image sampling.
-- The layout has **no browser-page scroll**. Page arrows reveal additional playlists and songs; on mobile the three sections are accessible through tabs.
-- Volume is saved locally, and each listener enables YouTube audio themselves.
+## Go live
+1. Publish `database.rules.json` in Firebase Realtime Database Rules.
+2. Put these files in your GitHub Pages or static hosting repo.
+3. Commit and push.
+4. Open the site and click **Enable Audio**.
 
-## Setup and installation
-
-Read **GO_LIVE.md**. Most importantly, publish the new `database.rules.json` file in Firebase before deploying the code. Use `INSTALL_TO_GITHUB.bat` to install into GitHub Desktop, then commit and push.
-
-## Data model
-
-- `musesinkHub/v1/playlists/{playlistId}`: playlist metadata
-- `musesinkHub/v1/tracks/{playlistId}/{trackId}`: YouTube link metadata
-- `musesinkHub/v1/playback`: active playlist and shared player position
-- `musesinkHub/v1/presence/{anonymousUid}`: connected listeners
-
-Old `musesinkRooms` nodes are not used or modified. Avoid exposing personal information in this trusted-group app: anonymous auth permits site visitors to collaborate.
-
-## Testing
-
-See `TEST_REPORT.md` for the performed checks and remaining required live verification.
+## Notes
+- Idle = rainbow accents.
+- Playing music = accents adapt to the current track cover.
+- The YouTube engine still powers playback, but the big visible video panel is gone.
+- YouTube embeds still depend on the video being embeddable.

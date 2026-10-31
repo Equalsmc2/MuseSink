@@ -1,10 +1,10 @@
-# MuseSink v2.2 — Online Firebase configuration included
+# MuseSink v2.3 — Online Firebase configuration included
 
 **Firebase is already set up inside `firebase-config.js` including the Realtime Database URL.** Do **not** run any Firebase setup batch file again. Follow `GO_LIVE_FIRST.md` to publish Realtime Database rules, enable Anonymous Authentication, and publish your website with GitHub Desktop.
 
 ---
 
-# MuseSink v2.2 — The squad's shared soundtrack
+# MuseSink v2.3 — The squad's shared soundtrack
 
 Three separate game playlists and themes, one synchronized room. Made with plain HTML, CSS and JavaScript to keep memory/CPU usage low. No npm, bundler, React, backend server, or media downloading. The only playback engine is YouTube's official, **visible** embedded player. Firebase holds a tiny room state: current game, playback timestamp, playlist entries, and who's connected.
 
@@ -66,3 +66,5 @@ No bundler or JavaScript UI framework. The page only refreshes UI on room change
 ## v2 regression coverage
 
 Executed: `node --check app.js`, Python `py_compile` for setup helper, static HTML/rules checks, and headless Chromium DOM smoke using an in-memory mock YouTube API. The smoke covered room creation, track queuing, arm, conservative drift correction with seek cooldown, and separate game playlists. Actual YouTube CDN streaming, Firebase permissions, and two physically separate devices must be verified in the deployed environment. See `CHANGELOG.md`.
+
+See `FIX_API_KEY_FIRST.md` for the `auth/api-key-not-valid` fix.

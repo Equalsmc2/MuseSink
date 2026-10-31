@@ -1,4 +1,4 @@
-/* MuseSink v2.2 — dependency-free UI, official YouTube IFrame player, optional Firebase RTDB. */
+/* MuseSink v2.3 — dependency-free UI, official YouTube IFrame player, optional Firebase RTDB. */
 'use strict';
 const $ = id => document.getElementById(id);
 const GAME_DATA = {
@@ -76,7 +76,17 @@ async function initStore(){
       app.store=new FirebaseStore();
       $('demoNotice').hidden=true;$('connectionLabel').textContent='LIVE SYNC';$('footerMode').textContent='FIREBASE CONNECTED';
       toast('Online rooms enabled.');return;
-    }catch(e){console.error('Firebase init failed',e);$('demoNotice').querySelector('span:nth-child(2)').textContent='Online connection failed: '+(e?.message||'unknown error')+'. Rooms are LOCAL ONLY until Firebase is fixed.';toast('ONLINE FAILED — local demo only. Check Firebase settings.');}
+    }catch(e){
+      console.error('Firebase init failed',e);
+      const code=String(e?.code||'');
+      const hint=code==='auth/invalid-api-key'||code==='auth/api-key-not-valid'
+        ? 'Firebase rejected the API key. Verify firebase-config.js against Firebase Console → Project settings → Your apps → Config, then redeploy and hard-refresh.'
+        : code==='auth/unauthorized-domain'
+          ? 'Add this site hostname to Firebase Console → Authentication → Settings → Authorized domains.'
+          : 'Online connection failed: '+(e?.message||'unknown error')+'.';
+      $('demoNotice').querySelector('span:nth-child(2)').textContent=hint+' Rooms are LOCAL ONLY until Firebase is fixed.';
+      toast('ONLINE FAILED — local demo only. Check the banner.');
+    }
   }
   app.store=new LocalStore();
   if(config?.projectId && !config.databaseURL){

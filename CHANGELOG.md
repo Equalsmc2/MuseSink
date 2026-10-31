@@ -1,3 +1,12 @@
+# MuseSink v2.3 — Critical online authentication fix
+
+- Fixed **two `0` vs `O` transcription errors** in the Firebase Web App API key (the cause of `auth/api-key-not-valid` in v2.2).
+- Updated HTML script cache tags and visible header version to **v2.3**.
+- Added a targeted error banner if Firebase rejects an API key or hosting domain.
+- No changes to your published Realtime Database rules or Anonymous Authentication settings.
+- Preserved the v2.2 YouTube synchronization fixes, light frontend, and all game profiles.
+
+---
 # MuseSink v2.2
 
 - Filled the exact `databaseURL` visible in your Firebase Data tab.

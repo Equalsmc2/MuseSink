@@ -1,6 +1,8 @@
-// MuseSink public Firebase web client settings. Never include Admin SDK private keys.
+// MuseSink public Firebase Web App configuration. Confirmed against original Firebase screenshot.
+// Realtime Database URL added from the Firebase console Data tab screenshot.
+// Do not paste service-account keys or Admin SDK credentials here.
 window.MUSE_FIREBASE_CONFIG = {
-  "apiKey": "AIzaSyCEHpUu-wQ0rJDFIkec02zcRxMikxxoxyI",
+  "apiKey": "AIzaSyCEHpUu-wQOrJDFIkecO2zcRxMikxxoxyI",
   "authDomain": "musesink.firebaseapp.com",
   "databaseURL": "https://musesink-default-rtdb.firebaseio.com",
   "projectId": "musesink",

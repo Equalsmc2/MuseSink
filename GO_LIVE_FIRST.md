@@ -1,4 +1,8 @@
-# MuseSink v2.2 — Firebase configuration complete
+# MuseSink v2.3 — API key corrected
+
+**If you are updating v2.2 to repair `auth/api-key-not-valid`, see `FIX_API_KEY_FIRST.md`.**
+
+# MuseSink v2.3 — Firebase configuration complete
 
 This ZIP is **preconfigured** for the Firebase project `musesink` and Realtime Database URL:
 
